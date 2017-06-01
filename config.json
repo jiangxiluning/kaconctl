@@ -1,12 +1,18 @@
 {
     "connector.class":"io.confluent.connect.hdfs.HdfsSinkConnector",
-    "topics":"connect_test",
-    "tasks.max":1,
-    "hdfs.url":"hdfs://goome",
-    "flush.size":1,
+    "topics":"t_im_message",
+    "tasks.max": 1,
+    "hdfs.url":"hdfs://goome/user/common/goome",
+    "flush.size": 1,
     "hadoop.conf.dir":"/etc/hadoop/conf",
     "format.class":"io.confluent.connect.hdfs.parquet.ParquetFormat",
     "hive.integration":true,
     "hive.metastore.uris":"thift://da103:9083",
-    "schema.compatibility":"BACKWARD"
+    "hive.conf.dir":"/etc/hive/conf",
+    "schema.compatibility":"BACKWARD",
+    "hive.database":"community_logs",
+    "partitioner.class":"io.confluent.connect.hdfs.partitioner.FieldHourlyPartitioner",
+    "locale":"cn",
+    "timezone":"Asia/Shanghai",
+    "partition.field.name": "send_time"
 }

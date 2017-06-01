@@ -36,12 +36,12 @@ to update config of a connector, etc. It implements all rest apis of the distrib
 
 Usage:
   kafka-connect-ctl (-l | --list) [--tasks]
-  kafka-connect-ctl (-c | --create) <connector_name> <config.json>
+  kafka-connect-ctl <connector_name> --create <config.json>
   kafka-connect-ctl <connector_name> (-i | --info)
   kafka-connect-ctl <connector_name>  --list-config
   kafka-connect-ctl <connector_name>  --update-config <config.json>
-  kafka-connect-ctl <connector_name>  (-s | --status) [--task=<task_id>]
-  kafka-connect-ctl <connector_name>  --restart [--task=<task_id>]
+  kafka-connect-ctl <connector_name>  (-s | --status) [<task_id>]
+  kafka-connect-ctl <connector_name>  --restart [<task_id>]
   kafka-connect-ctl <connector_name>  (--pause | --resume)
   kafka-connect-ctl <connector_name>  (-d | --delete)
   kafka-connect-ctl (-p | --plugins) [--validate=<plugin_class>]
@@ -57,30 +57,79 @@ DISTRIBUTED_WORKER_INTERFACE="http://da100:18084"
 class Controller(object):
 
     def __init__(self, opts):
+        
         if opts.has_key('<connector_name>'):
             self.connector = opts['<connector_name>']
         if opts.has_key('<task_id>'):
             self.task_id = opts['<task_id>']
         if opts.has_key('<plugin_class>'):
             self.plugin_class = opts['<plugin_class>']
-        if opts.has_key('<config.json>'):
-            try:
+
+        try:
+            if  opts['<config.json>'] is not None:
                 self.config = json.load(open(opts['<config.json>']))
-            except:
-                print('Cannot read configuration file.')
-                sys.exit(-1)
+        except:
+            print('Cannot read configuration file.')
+            sys.exit(-1)
 
         self.opts = opts
 
     def run_command(self):
         if self.opts['--list'] or self.opts['-l']:
-
             if self.opts['--tasks']:
                 pass
             else:
                 self.list_active_connectors()
         elif self.opts['<connector_name>']:
-            self.update_connector_config()
+
+            if self.opts['--update-config']:
+                self.update_connector_config()
+            elif self.opts['--restart']:
+
+                if self.opts['<task_id>']:
+                    self.restart_connector_tasks()
+                else:
+                    self.restart_connector()
+            elif self.opts['--create']:
+                self.create_connector()
+            elif self.opts['--status']:
+                if self.opts['<task_id>']:
+                    self.status_connector_task()
+                else:
+                    self.status_connector()
+
+            elif (self.opts['--info'] or self.opts['-i']):
+                self.info_connector()
+            elif (self.opts['-d'] or self.opts['--delete']):
+                self.delete_connector()
+
+
+    def delete_connector(self):
+        url = '/connectors/{0}/'.format(self.connector)
+        self.update_url(url)
+        self.request('delete')
+
+
+    def info_connector(self):
+        url = '/connectors/{0}'.format(self.connector)
+        self.update_url(url)
+        self.request('get')
+
+    def status_connector(self):
+        url = '/connectors/{0}/status'.format(self.connector)
+        self.update_url(url)
+        self.request('get')
+
+    def status_connector_task(self):
+        url = '/connectors/{0}/tasks/{1}/status'.format(self.connector, self.task_id)
+        self.update_url(url)
+        self.request('get')
+
+    def create_connector(self):
+        url = '/connectors'
+        self.update_url(url)
+        self.request('post', data = {"name": self.connector,
+                                     "config": self.config})
 
 
     def update_url(self, url):
@@ -96,7 +145,7 @@ class Controller(object):
                     }
                 )
             elif method == 'post':
-                response = requests.data(
+                response = requests.post(
                     url=self.url,
                     headers={
                         "Accept": "application/json",
@@ -132,6 +181,16 @@ class Controller(object):
         url = "/connectors/{0}/config".format(self.connector)
         self.update_url(url)
         self.request('put', data = self.config)
+
+    def restart_connector(self):
+        url = "/connectors/{0}/restart".format(self.connector)
+        self.update_url(url)
+        self.request('post', data={})
+
+    def restart_connector_tasks(self):
+        url = "/connectors/{0}/tasks/{1}/restart".format(self.connector, self.task_id)
+        self.update_url(url)
+        self.request('post', data={})
 
 if __name__ == '__main__':
     opts = docopt.docopt(__doc__)
