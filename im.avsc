@@ -1,0 +1,53 @@
+{
+  "namespace": "net.goome.avro",
+  "type": "record",
+  "name": "IMMessage",
+  "fields": [{
+      "name": "sender_uid",
+      "type": "long"
+    },
+    {
+      "name": "sender_bid",
+      "type": "int"
+    },
+    {
+      "name": "devid",
+      "type": "string"
+    },
+    {
+      "name": "os_type",
+      "type": "string"
+    },
+    {
+      "name": "platform",
+      "type": "string"
+    },
+    {
+      "name": "receiver_type",
+      "type": "string"
+    },
+    {
+      "name": "receiver_bid",
+      "type": [
+        "int",
+        "null"
+      ]
+    },
+    {
+      "name": "receiver_uid",
+      "type": "long"
+    },
+    {
+      "name": "send_time",
+      "type": "long"
+    },
+    {
+      "name": "message_type",
+      "type": "string"
+    },
+    {
+      "name": "body",
+      "type": "string"
+    }
+  ]
+}
