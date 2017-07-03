@@ -1,0 +1,14 @@
+{
+    "connector.class":"io.confluent.connect.jdbc.JdbcSourceConnector",
+    "topic.prefix":"community_",
+    "tasks.max": 9,
+    "connection.url":"jdbc:mysql://54.222.178.11:7201/community",
+    "connection.user":"community_r",
+    "connection.password": "CkephhAz6uZJmbuV",
+    "table.whitelist" : "t_user",
+    "mode": "timestamp+incrementing",
+    "timestamp.column.name":"modify_time",
+    "incrementing.column.name": "uid",
+    "batch.max.rows": "100",
+    "poll.interval.ms" : "1000",
+}

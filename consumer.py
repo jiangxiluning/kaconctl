@@ -3,14 +3,14 @@ from confluent_kafka.avro import AvroConsumer
 from confluent_kafka.avro.serializer import SerializerError
 
 
-c = AvroConsumer({'bootstrap.servers': 'da100:9092', 'group.id': 'groupid', 'schema.registry.url': 'http://da100:8083'})
+c = AvroConsumer({'bootstrap.servers': 'da100:9092', 'group.id': 'groupid11', 'schema.registry.url': 'http://da100:8083'})
 
-c.subscribe(['t_im_message'])
+c.subscribe(['community_t_user'])
 
 running = True
 while running:
     try:
-        msg = c.poll(10)
+        msg = c.poll()
         if msg:
             if not msg.error():
                 print(msg.value())

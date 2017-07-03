@@ -48,6 +48,10 @@
     {
       "name": "body",
       "type": "string"
+    },
+    {
+        "name": "msg_id",
+        "type":"long"
     }
   ]
 }

@@ -1,9 +1,10 @@
 {
     "connector.class":"io.confluent.connect.hdfs.HdfsSinkConnector",
     "topics":"t_im_message",
-    "tasks.max": 1,
+    "tasks.max": 9,
     "hdfs.url":"hdfs://goome/user/common/goome",
-    "flush.size": 1,
+    "flush.size": 1000,
+    "rotate.interval.ms": 5000,
     "hadoop.conf.dir":"/etc/hadoop/conf",
     "format.class":"io.confluent.connect.hdfs.parquet.ParquetFormat",
     "hive.integration":true,
