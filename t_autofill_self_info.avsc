@@ -1,0 +1,73 @@
+{
+    "type": "record",
+    "name": "t_autofill_self_info",
+    "fields": [
+        {
+            "name": "uid",
+            "type": "long"
+        },
+        {
+            "name": "realname",
+            "type": "string"
+        },
+        {
+            "name": "flag",
+            "type": "long"
+        },
+        {
+            "name": "tel",
+            "type": "string"
+        },
+        {
+            "name": "wxid",
+            "type": "string"
+        },
+        {
+            "name": "idcard",
+            "type": "string"
+        },
+        {
+            "name": "hkpass",
+            "type": "string"
+        },
+        {
+            "name": "passport",
+            "type": "string"
+        },
+        {
+            "name": "birthday",
+            "type": "string"
+        },
+        {
+            "name": "address",
+            "type": "string"
+        },
+        {
+            "name": "bankcard",
+            "type": "string"
+        },
+        {
+            "name": "bankname",
+            "type": "string"
+        },
+        {
+            "name": "create_time",
+            "type": {
+                "type": "long",
+                "connect.version": 1,
+                "connect.name": "org.apache.kafka.connect.data.Timestamp",
+                "logicalType": "timestamp-millis"
+            }
+        },
+        {
+            "name": "modify_time",
+            "type": {
+                "type": "long",
+                "connect.version": 1,
+                "connect.name": "org.apache.kafka.connect.data.Timestamp",
+                "logicalType": "timestamp-millis"
+            }
+        }
+    ],
+    "connect.name": "t_autofill_self_info"
+}
