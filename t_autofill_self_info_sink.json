@@ -2,7 +2,7 @@
     "connector.class":"io.confluent.connect.jdbc.JdbcSourceConnector",
     "topic.prefix":"community_",
     "tasks.max": 9,
-    "connection.url":"jdbc:mysql://54.222.178.11:7201/community",
+    "connection.url":"jdbc:mysql://192.168.7.102:7201/community",
     "connection.user":"community_r",
     "connection.password": "CkephhAz6uZJmbuV",
     "table.whitelist" : "t_autofill_self_info",
